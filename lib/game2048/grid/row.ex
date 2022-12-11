@@ -1,6 +1,13 @@
 defmodule Game2048.Grid.Row do
   @moduledoc """
-  Documentation for `Game2048.Grid.Row`.
+  Row consis spots and is written as follows:
+
+      [2, 1, 4, 8, :empty, :obstacle, 64]
+
+  Spot can:
+  - be empty (`:empty`),
+  - contain a numbered tile,
+  - contain an obstacle (`:obstacle`).
   """
 
   @type t :: list(spot)
