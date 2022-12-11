@@ -1,0 +1,40 @@
+#game #grid {
+  position: sticky;
+  overflow: hidden;
+  width: 50vw;
+  height: 50vw;
+  max-width: calc(100vh - 10em);
+  max-height: calc(100vh - 10em);
+  min-width: 300px;
+  min-height: 300px;
+  border: 7px solid black;
+  background-color: gray;
+}
+
+#game #spots, #game #elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  width: 100%;
+  height: 100%;
+}
+
+#game .spot {
+  z-index: 50;
+  background: none;
+  box-shadow: inset -1px -1px 1px 1px black;
+}
+
+#game .obstacle {
+  background-color: red;
+}
+
+#game .tile {
+  background-color: yellow;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 35px;
+  font-weight: bold;
+}

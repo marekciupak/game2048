@@ -1,0 +1,38 @@
+<div id="game">
+  <div id="grid">
+
+    <!-- TODO: Consider extracting some logic to helpers. -->
+
+    <% {grid_size_x, grid_size_y} = @game.grid_size %>
+    <% grid_template = "grid-template-rows: repeat(#{grid_size_x}, calc(100%/#{grid_size_x})); grid-template-columns: repeat(#{grid_size_y}, calc(100%/#{grid_size_y}));" %>
+
+    <div id="spots" style={grid_template}>
+      <%= for row <- @game.grid do %>
+        <%= for _spot <- row do %>
+          <div class="spot" />
+        <% end %>
+      <% end %>
+    </div>
+
+    <div id="elements" style={grid_template}>
+      <%= for {row, y} <- Enum.with_index(@game.grid) do %>
+        <%= for {spot, x} <- Enum.with_index(row) do %>
+
+          <% grid_position = "grid-column: #{x + 1}; grid-row: #{y + 1};" %>
+
+          <%= if spot == :obstacle do %>
+            <div class="obstacle" style={grid_position} />
+          <% end %>
+
+          <%= if is_integer(spot) do %>
+            <div class="tile" style={grid_position}>
+              <%= spot %>
+            </div>
+          <% end %>
+
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+</div>
