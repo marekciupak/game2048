@@ -16,7 +16,7 @@ defmodule Game2048.Grid do
   - contain an obstacle (`:obstacle`).
   """
 
-  alias Game2048.Row
+  alias Game2048.Grid.Row
 
   @type t :: list(Row.t())
   @type size_x :: pos_integer()

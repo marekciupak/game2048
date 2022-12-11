@@ -1,6 +1,6 @@
-defmodule Game2048.Row do
+defmodule Game2048.Grid.Row do
   @moduledoc """
-  Documentation for `Game2048.Row`.
+  Documentation for `Game2048.Grid.Row`.
   """
 
   @type t :: list(spot)
@@ -18,13 +18,13 @@ defmodule Game2048.Row do
 
   ## Examples
 
-      iex> Game2048.Row.slide_left([:empty, 1, 2, :empty, 4])
+      iex> Game2048.Grid.Row.slide_left([:empty, 1, 2, :empty, 4])
       [1, 2, 4, :empty, :empty]
 
-      iex> Game2048.Row.slide_left([2, 2, :empty, 4, 4])
+      iex> Game2048.Grid.Row.slide_left([2, 2, :empty, 4, 4])
       [4, 8, :empty, :empty, :empty]
 
-      iex> Game2048.Row.slide_left([8, 8, 8])
+      iex> Game2048.Grid.Row.slide_left([8, 8, 8])
       [16, 8, :empty]
 
   """
@@ -39,17 +39,17 @@ defmodule Game2048.Row do
   Slides tiles as far as possible to the right.
 
   All the rules are the same as when sliding to the left (only the direction is different) - take a look at
-  `Game2048.Row.slide_left/1` for details.
+  `Game2048.Grid.Row.slide_left/1` for details.
 
   ## Examples
 
-      iex> Game2048.Row.slide_right([:empty, 1, 2, :empty, 4])
+      iex> Game2048.Grid.Row.slide_right([:empty, 1, 2, :empty, 4])
       [:empty, :empty, 1, 2, 4]
 
-      iex> Game2048.Row.slide_right([2, 2, :empty, 4, 4])
+      iex> Game2048.Grid.Row.slide_right([2, 2, :empty, 4, 4])
       [:empty, :empty, :empty, 4, 8]
 
-      iex> Game2048.Row.slide_right([8, 8, 8])
+      iex> Game2048.Grid.Row.slide_right([8, 8, 8])
       [:empty, 8, 16]
 
   """
