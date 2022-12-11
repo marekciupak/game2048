@@ -12,6 +12,7 @@ defmodule Game2048.Application do
       Game2048Web.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Game2048.PubSub},
+      Game2048.Games.Game,
       # Start the Endpoint (http/https)
       Game2048Web.Endpoint
       # Start a worker by calling: Game2048.Worker.start_link(arg)

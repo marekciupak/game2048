@@ -2,7 +2,14 @@ defmodule Game2048.Games.Game do
   @enforce_keys [:grid_size, :grid]
   defstruct [:grid_size, :grid]
 
+  use GenServer
+
   alias Game2048.Games.Game
+  alias Game2048.Grid
+
+  def start_link(options \\ []) when is_list(options) do
+    GenServer.start_link(__MODULE__, options, name: __MODULE__)
+  end
 
   @doc """
   Gets the current game.
@@ -21,13 +28,23 @@ defmodule Game2048.Games.Game do
 
   """
   def get() do
-    %Game{
-      grid_size: {3, 3},
-      grid: [
-        [:empty, 2, :empty],
-        [:empty, :empty, 4],
-        [1, :obstacle, :empty]
-      ]
+    GenServer.call(__MODULE__, :get)
+  end
+
+  @impl true
+  def init(_options \\ []) do
+    grid_size = {3, 3}
+
+    game = %Game{
+      grid_size: grid_size,
+      grid: Grid.generate(grid_size)
     }
+
+    {:ok, game}
+  end
+
+  @impl true
+  def handle_call(:get, _from, state) do
+    {:reply, state, state}
   end
 end
