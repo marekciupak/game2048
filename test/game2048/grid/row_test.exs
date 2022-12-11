@@ -32,6 +32,14 @@ defmodule Game2048.Grid.RowTest do
       assert Game2048.Grid.Row.slide_left([1, 1, 2]) == [2, 2, :empty]
       assert Game2048.Grid.Row.slide_left([:empty, 1, :empty, :empty, 1]) == [2, :empty, :empty, :empty, :empty]
     end
+
+    test "does not move obstacles" do
+      assert Game2048.Grid.Row.slide_left([:empty, :empty, :obstacle]) == [:empty, :empty, :obstacle]
+      assert Game2048.Grid.Row.slide_left([1, 1, :obstacle]) == [2, :empty, :obstacle]
+      assert Game2048.Grid.Row.slide_left([1, :obstacle, 1, 1, 1]) == [1, :obstacle, 2, 1, :empty]
+      assert Game2048.Grid.Row.slide_left([:obstacle, 1, :obstacle, :obstacle]) == [:obstacle, 1, :obstacle, :obstacle]
+      assert Game2048.Grid.Row.slide_left([:obstacle, 2, :empty, 4, :obstacle]) == [:obstacle, 2, 4, :empty, :obstacle]
+    end
   end
 
   describe "Game2048.Grid.Row.slide_right/1" do
@@ -55,6 +63,10 @@ defmodule Game2048.Grid.RowTest do
     test "moves tiles to the right merging matching pairs together" do
       assert Game2048.Grid.Row.slide_right([8, 8, 8, 8, 8]) == [:empty, :empty, 8, 16, 16]
       assert Game2048.Grid.Row.slide_right([8, 8, :empty, :empty]) == [:empty, :empty, :empty, 16]
+    end
+
+    test "does not move obstacles" do
+      assert Game2048.Grid.Row.slide_right([1, :obstacle, 2, 2, :empty]) == [1, :obstacle, :empty, :empty, 4]
     end
   end
 end

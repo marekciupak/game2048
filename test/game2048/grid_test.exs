@@ -8,13 +8,13 @@ defmodule Game2048.GridTest do
         Game2048.Grid.move(
           [
             [2, :empty, 2],
-            [16, 16, 16],
+            [16, :obstacle, 16],
             [:empty, 2, 32]
           ],
           :left
         ) == [
           [4, :empty, :empty],
-          [32, 16, :empty],
+          [16, :obstacle, 16],
           [2, 32, :empty]
         ]
       )
@@ -42,14 +42,14 @@ defmodule Game2048.GridTest do
         Game2048.Grid.move(
           [
             [2, :empty, 2],
-            [16, 16, 16],
+            [16, :obstacle, 16],
             [:empty, 2, 32]
           ],
           :up
         ) == [
-          [2, 16, 2],
-          [16, 2, 16],
-          [:empty, :empty, 32]
+          [2, :empty, 2],
+          [16, :obstacle, 16],
+          [:empty, 2, 32]
         ]
       )
     end

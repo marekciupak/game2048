@@ -41,11 +41,12 @@ defmodule Game2048.Grid do
 
   Player can move the gird in one of the four directions (`:left`, `:right`, `:up` or `:down`).
 
-  It slides all tiles in the grid as far as possible to the given direction.
-  Tiles will slide through empty spots and can move other tiles until they are stopped by the edge of the row.
+  The movement causes sliding all the tiles in the grid to a given direction.
 
-  If two tiles of the same number collide while moving, they will merge into a tile with the total value of the two
-  tiles that collided. The resulting tile will not merge with another tile again.
+  The rules for sliding tiles in a single row are described in `Game2048.Row.slide_left/2` and
+  `Game2048.Row.slide_right/2`. The rules for sliding the tiles in columns are exactly the same, apart from the
+  difference in directions. The rules will be applied to each individual row (directions `:left` or `:right`) or column
+  (directions `:up` or `:down`).
 
   ## Examples
 
@@ -66,14 +67,14 @@ defmodule Game2048.Grid do
     iex Game2048.Grid.move(
     ...>   [
     ...>     [:empty, :empty, 2],
-    ...>     [:empty, 2, 2],
+    ...>     [:empty, :obstacle, 2],
     ...>     [2, :empty, 4]
     ...>   ],
     ...>   :down
     ...> )
     [
       [:empty, :empty, :empty],
-      [:empty, :empty, 4],
+      [:empty, :obsctale, 4],
       [2, 2, 4]
     ]
 

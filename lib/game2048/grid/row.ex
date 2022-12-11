@@ -11,10 +11,12 @@ defmodule Game2048.Grid.Row do
 
   @doc """
   Slides tiles as far as possible to the left. Tiles can slide through empty spots and can move other tiles until they
-  are stopped by the edge of the row.
+  are stopped by an obstacle or the edge of the row.
 
   If two tiles of the same number collide while moving, they will merge into a tile with the total value of the two
   tiles that collided. The resulting tile cannot merge with another tile again.
+
+  Obstacles do not move.
 
   ## Examples
 
@@ -26,6 +28,9 @@ defmodule Game2048.Grid.Row do
 
       iex> Game2048.Grid.Row.slide_left([8, 8, 8])
       [16, 8, :empty]
+
+      iex> Game2048.Grid.Row.slide_left([:empty, 2, :obstacle, :empty, 4, 4])
+      [2, :empty, :obstacle, 8, :empty, :empty]
 
   """
   @spec slide_left(t) :: t
@@ -46,11 +51,8 @@ defmodule Game2048.Grid.Row do
       iex> Game2048.Grid.Row.slide_right([:empty, 1, 2, :empty, 4])
       [:empty, :empty, 1, 2, 4]
 
-      iex> Game2048.Grid.Row.slide_right([2, 2, :empty, 4, 4])
-      [:empty, :empty, :empty, 4, 8]
-
-      iex> Game2048.Grid.Row.slide_right([8, 8, 8])
-      [:empty, 8, 16]
+      iex> Game2048.Grid.Row.slide_right([2, 2, 2, :obstacle, 4, 4])
+      [:empty, 2, 4, :obstacle, :empty, 8]
 
   """
   @spec slide_right(t) :: t
@@ -62,6 +64,11 @@ defmodule Game2048.Grid.Row do
 
   @spec slide(t, list(t), list(empty_spot)) :: t
   defp slide(_row, acc \\ [], empty_spots \\ [])
+
+  defp slide([:obstacle | rest], acc, empty_spots) do
+    acc = empty_spots ++ acc
+    slide(rest, [:obstacle | acc], [])
+  end
 
   defp slide([:empty | rest], acc, empty_spots) do
     slide(rest, acc, [:empty | empty_spots])
