@@ -1,4 +1,9 @@
 <div id="game">
+  <p id="instruction">
+    Press arrows (left, right, up or down) on your keyboard to slide <span class="yellow">yellow</span> numbered tiles
+    through empty spots. Tiles can not slide through <span class="red">red</span> obstacles.
+  </p>
+
   <div id="grid">
 
     <!-- TODO: Consider extracting some logic to helpers. -->
@@ -35,4 +40,10 @@
     </div>
   </div>
 
+  <div id="controls">
+    <div phx-window-keydown="move" phx-key="ArrowRight" phx-value-direction="right" />
+    <div phx-window-keydown="move" phx-key="ArrowLeft" phx-value-direction="left" />
+    <div phx-window-keydown="move" phx-key="ArrowUp" phx-value-direction="up" />
+    <div phx-window-keydown="move" phx-key="ArrowDown" phx-value-direction="down" />
+  </div>
 </div>

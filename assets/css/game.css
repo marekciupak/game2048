@@ -38,3 +38,15 @@
   font-size: 35px;
   font-weight: bold;
 }
+
+#game #instruction .red {
+  background-color: black;
+  font-weight: bold;
+  color: red;
+}
+
+#game #instruction .yellow {
+  background-color: black;
+  font-weight: bold;
+  color: yellow;
+}

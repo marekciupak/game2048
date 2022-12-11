@@ -5,7 +5,8 @@ defmodule Game2048Web.GameLive.Show do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :game, Games.get_game())}
+    game = Games.get_game()
+    {:ok, assign(socket, :game, game)}
   end
 
   @impl true
@@ -16,5 +17,12 @@ defmodule Game2048Web.GameLive.Show do
   defp apply_action(socket, :show, _params) do
     socket
     |> assign(:page_title, "2048 Game")
+  end
+
+  @impl true
+  def handle_event("move", %{"direction" => direction}, socket) do
+    IO.inspect(direction)
+
+    {:noreply, socket}
   end
 end
