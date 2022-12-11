@@ -1,6 +1,8 @@
 defmodule Game2048Web.GameLive.Show do
   use Game2048Web, :live_view
 
+  defguard is_direction(term) when term == "left" or term == "right" or term == "up" or term == "down"
+
   alias Game2048.Games
 
   @impl true
@@ -20,9 +22,8 @@ defmodule Game2048Web.GameLive.Show do
   end
 
   @impl true
-  def handle_event("move", %{"direction" => direction}, socket) do
-    IO.inspect(direction)
-
-    {:noreply, socket}
+  def handle_event("move", %{"direction" => direction}, socket) when is_direction(direction) do
+    game = Game2048.Games.move(String.to_atom(direction))
+    {:noreply, assign(socket, :game, game)}
   end
 end

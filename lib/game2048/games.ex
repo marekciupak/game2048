@@ -6,4 +6,5 @@ defmodule Game2048.Games do
   alias Game2048.Games.Game
 
   defdelegate get_game, to: Game, as: :get
+  defdelegate move(direction), to: Game, as: :move
 end

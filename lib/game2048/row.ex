@@ -3,6 +3,12 @@ defmodule Game2048.Row do
   Documentation for `Game2048.Row`.
   """
 
+  @type t :: list(spot)
+  @type spot :: empty_spot | obstacle | tile
+  @type empty_spot :: :empty
+  @type obstacle :: :obstacle
+  @type tile :: pos_integer()
+
   @doc """
   Slides tiles as far as possible to the left. Tiles can slide through empty spots and can move other tiles until they
   are stopped by the edge of the row.
@@ -22,6 +28,7 @@ defmodule Game2048.Row do
       [16, 8, :empty]
 
   """
+  @spec slide_left(t) :: t
   def slide_left(row) do
     row
     |> slide()
@@ -46,12 +53,14 @@ defmodule Game2048.Row do
       [:empty, 8, 16]
 
   """
+  @spec slide_right(t) :: t
   def slide_right(row) do
     row
     |> Enum.reverse()
     |> slide()
   end
 
+  @spec slide(t, list(t), list(empty_spot)) :: t
   defp slide(_row, acc \\ [], empty_spots \\ [])
 
   defp slide([:empty | rest], acc, empty_spots) do

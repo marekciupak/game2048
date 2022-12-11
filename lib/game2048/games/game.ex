@@ -31,6 +31,10 @@ defmodule Game2048.Games.Game do
     GenServer.call(__MODULE__, :get)
   end
 
+  def move(direction) do
+    GenServer.call(__MODULE__, {:move, direction})
+  end
+
   @impl true
   def init(_options \\ []) do
     grid_size = {3, 3}
@@ -46,5 +50,13 @@ defmodule Game2048.Games.Game do
   @impl true
   def handle_call(:get, _from, state) do
     {:reply, state, state}
+  end
+
+  @impl true
+  def handle_call({:move, direction}, _from, %Game{grid: grid} = game) do
+    grid = Grid.move(grid, direction)
+    next_state = Map.put(game, :grid, grid)
+
+    {:reply, next_state, next_state}
   end
 end
