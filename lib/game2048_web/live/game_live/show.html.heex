@@ -24,7 +24,7 @@
     <!-- TODO: Consider extracting some logic to helpers. -->
 
     <% {grid_size_x, grid_size_y} = @game.grid_size %>
-    <% grid_template = "grid-template-rows: repeat(#{grid_size_x}, calc(100%/#{grid_size_x})); grid-template-columns: repeat(#{grid_size_y}, calc(100%/#{grid_size_y}));" %>
+    <% grid_template = "grid-template-columns: repeat(#{grid_size_x}, calc(100%/#{grid_size_x})); grid-template-rows: repeat(#{grid_size_y}, calc(100%/#{grid_size_y}));" %>
 
     <div id="spots" style={grid_template}>
       <%= for row <- @game.grid do %>
