@@ -3,7 +3,7 @@ defmodule Game2048Web.GameLiveTest do
 
   import Phoenix.LiveViewTest
 
-  @create_attrs %{grid_size_x: 42, grid_size_y: 42, number_of_obstacles: 42}
+  @create_attrs %{grid_size_x: 2, grid_size_y: 2, number_of_obstacles: 1}
   @invalid_attrs %{grid_size_x: nil, grid_size_y: nil, number_of_obstacles: nil}
 
   describe "Show" do

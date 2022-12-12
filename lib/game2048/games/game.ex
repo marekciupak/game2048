@@ -35,19 +35,34 @@ defmodule Game2048.Games.Game do
     GenServer.call(__MODULE__, {:move, direction})
   end
 
-  # TODO: Implement restarting the game.
-  def restart(options \\ %{}) do
-    IO.inspect(options)
+  @doc """
+  Restarts the game.
+
+  Optionally, you can specify custom gameplay parameters (grid size and number of obstacles) for the new game.
+
+  ## Examples
+
+      iex> Game2048.Games.Game.restart(
+        grid_size: {3, 3},
+        number_of_obstacles: 1
+      )
+      %Game2048.Games.Game{
+        grid_size: {3, 3},
+        grid: [
+          [:empty, 2, :empty],
+          [:empty, :empty, 4],
+          [1, :obstacle, :empty]
+        ]
+      }
+
+  """
+  def restart(params \\ []) do
+    GenServer.call(__MODULE__, {:restart, params})
   end
 
   @impl true
-  def init(_options \\ []) do
-    grid_size = {3, 3}
-
-    game = %Game{
-      grid_size: grid_size,
-      grid: Grid.generate(grid_size)
-    }
+  def init(params \\ []) do
+    game = generate_new_game(params)
 
     {:ok, game}
   end
@@ -59,9 +74,31 @@ defmodule Game2048.Games.Game do
 
   @impl true
   def handle_call({:move, direction}, _from, %Game{grid: grid} = game) do
-    grid = Grid.move(grid, direction)
-    next_state = Map.put(game, :grid, grid)
+    next_grid = Grid.move(grid, direction)
+    next_game = Map.put(game, :grid, next_grid)
 
-    {:reply, next_state, next_state}
+    {:reply, next_game, next_game}
+  end
+
+  @impl true
+  def handle_call({:restart, params}, _from, _game) do
+    game = generate_new_game(params)
+
+    {:reply, game, game}
+  end
+
+  defp generate_new_game(params) do
+    grid_size = Keyword.get(params, :grid_size, {6, 6})
+    number_of_obstacles = Keyword.get(params, :number_of_obstacles, 2)
+
+    %Game{
+      grid_size: grid_size,
+      grid:
+        Grid.generate(
+          size: grid_size,
+          number_of_obstacles: number_of_obstacles,
+          starting_tiles: [1]
+        )
+    }
   end
 end

@@ -17,4 +17,6 @@ defmodule Game2048.Games.NewGameForm do
     |> validate_number(:grid_size_y, greater_than_or_equal_to: 1)
     |> validate_number(:number_of_obstacles, greater_than_or_equal_to: 0)
   end
+
+  def grid_size(%{grid_size_x: x, grid_size_y: y}), do: {x, y}
 end

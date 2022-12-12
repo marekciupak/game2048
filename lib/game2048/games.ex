@@ -23,10 +23,12 @@ defmodule Game2048.Games do
   def restart_game(attrs \\ %{}) do
     case NewGameForm.changeset(%NewGameForm{}, attrs) do
       %{valid?: true} = changeset ->
-        new_game_form =
-          changeset
-          |> Ecto.Changeset.apply_changes()
-          |> tap(&Game.restart/1)
+        new_game_form = Ecto.Changeset.apply_changes(changeset)
+
+        Game.restart(
+          grid_size: NewGameForm.grid_size(new_game_form),
+          number_of_obstacles: new_game_form.number_of_obstacles
+        )
 
         {:ok, new_game_form}
 

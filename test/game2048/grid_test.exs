@@ -1,6 +1,46 @@
 defmodule Game2048.GridTest do
   use ExUnit.Case, async: true
-  doctest Game2048.Grid
+  doctest Game2048.Grid, except: [generate: 1]
+
+  describe "Game2048.Grid.generate/1" do
+    test "generates empty grid" do
+      assert(
+        Game2048.Grid.generate(
+          size: {2, 2},
+          number_of_obstacles: 0,
+          starting_tiles: []
+        ) == [
+          [:empty, :empty],
+          [:empty, :empty]
+        ]
+      )
+    end
+
+    test "generates grid with obstacles and starting tiles" do
+      assert(
+        Game2048.Grid.generate(
+          size: {2, 2},
+          number_of_obstacles: 1,
+          starting_tiles: [2, 4]
+        )
+        |> List.flatten()
+        |> Enum.sort() == [2, 4, :empty, :obstacle]
+      )
+    end
+
+    test "raises NotEnoughSpotsError when there is no enough spots for the given elements in the grid" do
+      assert_raise(
+        Game2048.Grid.NotEnoughSpotsError,
+        fn ->
+          Game2048.Grid.generate(
+            size: {2, 2},
+            number_of_obstacles: 2,
+            starting_tiles: [2, 4, 8]
+          )
+        end
+      )
+    end
+  end
 
   describe "Game2048.Grid.move/2" do
     test "slides tiles to the left" do

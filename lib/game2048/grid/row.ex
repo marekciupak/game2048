@@ -10,10 +10,15 @@ defmodule Game2048.Grid.Row do
   - contain an obstacle (`:obstacle`).
   """
 
+  alias Game2048.Grid.Obstacles
+
   @type t :: list(spot)
-  @type spot :: empty_spot | obstacle | tile
+
+  @type spot :: empty_spot | element
+  @type element :: obstacle | tile
+
   @type empty_spot :: :empty
-  @type obstacle :: :obstacle
+  @type obstacle :: Obstacles.t()
   @type tile :: pos_integer()
 
   @doc """
