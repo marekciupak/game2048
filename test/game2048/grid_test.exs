@@ -1,5 +1,6 @@
 defmodule Game2048.GridTest do
   use ExUnit.Case, async: true
+  doctest Game2048.Grid, except: [generate: 1, move: 2]
 
   import Game2048.Grid, only: [tile_that_appears_on_every_move: 0]
 

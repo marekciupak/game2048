@@ -217,11 +217,87 @@ defmodule Game2048.Grid do
   end
 
   @doc """
+  Checks whether any legal move is possible on the given grid.
+
+  The move is illegal when there are no empty spots and no adjacent tiles with the same value.
+
+  ## Examples
+
+    iex> Game2048.Grid.any_legal_move_possible?([
+    ...>   [1, 2, 4],
+    ...>   [8, 1, 2],
+    ...>   [4, 8, 1]
+    ...> ])
+    false
+
+    iex> Game2048.Grid.any_legal_move_possible?([
+    ...>   [1, 2, 4],
+    ...>   [8, 1, 2],
+    ...>   [4, 8, 8]
+    ...> ])
+    true
+
+  """
+  @spec any_legal_move_possible?(t) :: boolean
+  def any_legal_move_possible?(grid) do
+    any_such_spot_on_grid?(grid, :empty) || any_slide_changes_the_grid?(grid)
+  end
+
+  @doc """
+  Checks whether there is at least one spot with the given value on the grid.
+
+  ## Examples
+
+    iex Game2048.Grid.any_such_spot_on_grid?(
+    ...>   [
+    ...>     [:empty, :empty, 2],
+    ...>     [:empty, :obstacle, 2],
+    ...>     [2, :empty, 4]
+    ...>   ],
+    ...>   :obstacle
+    ...> )
+    true
+
+    iex Game2048.Grid.any_such_spot_on_grid?(
+    ...>   [
+    ...>     [:empty, :empty, 2],
+    ...>     [:empty, :obstacle, 2],
+    ...>     [2, :empty, 4]
+    ...>   ],
+    ...>   8
+    ...> )
+    false
+
+  """
+  @spec any_such_spot_on_grid?(t, Row.spot()) :: boolean
+  def any_such_spot_on_grid?(grid, spot) do
+    Enum.any?(grid, fn row ->
+      Enum.any?(row, fn actual_spot ->
+        actual_spot == spot
+      end)
+    end)
+  end
+
+  @spec any_slide_changes_the_grid?(t) :: boolean
+  defp any_slide_changes_the_grid?(grid) do
+    [:right, :left, :up, :down]
+    |> Enum.any?(&does_slide_change_the_grid?(grid, &1))
+  end
+
+  @spec does_slide_change_the_grid?(t, direction) :: boolean
+  defp does_slide_change_the_grid?(grid, direction) do
+    grid != slide(grid, direction)
+  end
+
+  @doc """
   Returns a tile with the number that appears on a grid on every player's move.
+
+  ## Examples
+
+  iex> Game2048.Grid.tile_that_appears_on_every_move()
+  1
 
   """
   @spec tile_that_appears_on_every_move :: Row.tile()
-  def tile_that_appears_on_every_move do
-    @tile_that_appears_on_every_move
-  end
+  def tile_that_appears_on_every_move, do: @tile_that_appears_on_every_move
 end

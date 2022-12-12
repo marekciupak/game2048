@@ -12,11 +12,22 @@
 <% end %>
 
 <div id="game">
+  <p id="status">
+    Game status: <span class={@game.status}><%= @game.status %></span>.
+  </p>
   <p id="instruction">
-    Press arrows (left, right, up or down) on your keyboard to slide <span class="yellow">yellow</span> numbered tiles
-    through empty spots. Tiles can not slide through <span class="red">red</span> obstacles.
-    To change gameplay parameters or just start over:
-    <%= live_patch "restart the game", to: Routes.game_show_path(@socket, :new) %>.
+    <%= if @game.status == :ongoing do %>
+      Try to make a tile with number <strong><%= Game2048.Judging.winning_tile %></strong> appear on the board :)
+
+      Press arrows (<code>left</code>, <code>right</code>, <code>up</code> or <code>down</code>) on your keyboard to
+      slide <span class="yellow">yellow</span> numbered tiles through <span class="gray">gray</span> empty spots.
+      Tiles can not slide through <span class="red">red</span> obstacles.
+
+      To change gameplay parameters or just start over:
+      <%= live_patch "restart the game", to: Routes.game_show_path(@socket, :new) %>.
+    <% else %>
+      To start a new game, click: <%= live_patch "restart the game", to: Routes.game_show_path(@socket, :new) %>.
+    <% end %>
   </p>
 
   <div id="grid">
