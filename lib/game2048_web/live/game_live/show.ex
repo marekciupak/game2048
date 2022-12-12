@@ -4,6 +4,7 @@ defmodule Game2048Web.GameLive.Show do
   defguard is_direction(term) when term == "left" or term == "right" or term == "up" or term == "down"
 
   alias Game2048.Games
+  alias Game2048.Games.NewGameForm
 
   @impl true
   def mount(_params, _session, socket) do
@@ -19,6 +20,12 @@ defmodule Game2048Web.GameLive.Show do
   defp apply_action(socket, :show, _params) do
     socket
     |> assign(:page_title, "2048 Game")
+  end
+
+  defp apply_action(socket, :new, _params) do
+    socket
+    |> assign(:page_title, "Restart Game")
+    |> assign(:new_game_form, %NewGameForm{})
   end
 
   @impl true

@@ -35,6 +35,11 @@ defmodule Game2048.Games.Game do
     GenServer.call(__MODULE__, {:move, direction})
   end
 
+  # TODO: Implement restarting the game.
+  def restart(options \\ %{}) do
+    IO.inspect(options)
+  end
+
   @impl true
   def init(_options \\ []) do
     grid_size = {3, 3}

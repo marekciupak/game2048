@@ -1,7 +1,22 @@
+<%= if @live_action in [:new] do %>
+  <.modal return_to={Routes.game_show_path(@socket, :show)}>
+    <.live_component
+      module={Game2048Web.GameLive.FormComponent}
+      id={:new}
+      title={@page_title}
+      action={@live_action}
+      new_game_form={@new_game_form}
+      return_to={Routes.game_show_path(@socket, :show)}
+    />
+  </.modal>
+<% end %>
+
 <div id="game">
   <p id="instruction">
     Press arrows (left, right, up or down) on your keyboard to slide <span class="yellow">yellow</span> numbered tiles
     through empty spots. Tiles can not slide through <span class="red">red</span> obstacles.
+    To change gameplay parameters or just start over:
+    <%= live_patch "restart the game", to: Routes.game_show_path(@socket, :new) %>.
   </p>
 
   <div id="grid">

@@ -1,0 +1,28 @@
+<div>
+  <h2><%= @title %></h2>
+
+  <.form
+    let={f}
+    for={@changeset}
+    id="new-game-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+
+    <%= label f, :grid_size_x %>
+    <%= number_input f, :grid_size_x %>
+    <%= error_tag f, :grid_size_x %>
+
+    <%= label f, :grid_size_y %>
+    <%= number_input f, :grid_size_y %>
+    <%= error_tag f, :grid_size_y %>
+
+    <%= label f, :number_of_obstacles %>
+    <%= number_input f, :number_of_obstacles %>
+    <%= error_tag f, :number_of_obstacles %>
+
+    <div>
+      <%= submit "Save", phx_disable_with: "Saving..." %>
+    </div>
+  </.form>
+</div>

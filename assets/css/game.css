@@ -3,8 +3,8 @@
   overflow: hidden;
   width: 50vw;
   height: 50vw;
-  max-width: calc(100vh - 10em);
-  max-height: calc(100vh - 10em);
+  max-width: calc(100vh - 15em);
+  max-height: calc(100vh - 15em);
   min-width: 300px;
   min-height: 300px;
   border: 7px solid black;

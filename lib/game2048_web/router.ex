@@ -18,6 +18,7 @@ defmodule Game2048Web.Router do
     pipe_through :browser
 
     live "/", GameLive.Show, :show
+    live "/restart_game", GameLive.Show, :new
   end
 
   # Other scopes may use custom stacks.
