@@ -29,10 +29,34 @@ defmodule Game2048.Games.Game do
       }
 
   """
+  @spec get :: t
   def get() do
     GenServer.call(__MODULE__, :get)
   end
 
+  @doc """
+  Executes player's move.
+
+  Player can move tiles in one of 4 directions (`:left`, `:right`, `:up` or `:down`).
+
+  It will update the grid (for details, see `Game2048.Grid.move/2`) and game status (for details, see
+  `Game2048.Judging.current_game_status/1`).
+
+  ## Examples
+
+      iex> Game2048.Games.Game.move(:left)
+      %Game2048.Games.Game{
+        grid_size: {3, 3},
+        grid: [
+          [:obstacle, 1, :empty],
+          [1, :empty, :empty],
+          [:empty, :empty, :empty]
+        ],
+        status: :ongoing
+      }
+
+  """
+  @spec move(Grid.direction()) :: t
   def move(direction) do
     GenServer.call(__MODULE__, {:move, direction})
   end
@@ -45,9 +69,9 @@ defmodule Game2048.Games.Game do
   ## Examples
 
       iex> Game2048.Games.Game.restart(
-        grid_size: {3, 3},
-        number_of_obstacles: 1
-      )
+      ...>   grid_size: {3, 3},
+      ...>   number_of_obstacles: 1
+      ...> )
       %Game2048.Games.Game{
         grid_size: {3, 3},
         grid: [
@@ -58,10 +82,15 @@ defmodule Game2048.Games.Game do
       }
 
   """
+  @spec restart(grid_size: Grid.size(), number_of_obstacles: pos_integer()) :: t
   def restart(params \\ []) do
     GenServer.call(__MODULE__, {:restart, params})
   end
 
+  @doc """
+  Subscribe to game's updates.
+
+  """
   @spec subscribe :: :ok | {:error, {:already_registered, pid}}
   def subscribe do
     Phoenix.PubSub.subscribe(Game2048.PubSub, "game")
@@ -110,7 +139,7 @@ defmodule Game2048.Games.Game do
     {:reply, game, game}
   end
 
-  @spec generate_new_game(keyword) :: t
+  @spec generate_new_game(grid_size: Grid.size(), number_of_obstacles: pos_integer()) :: t
   defp generate_new_game(params) do
     grid_size = Keyword.get(params, :grid_size, {6, 6})
     number_of_obstacles = Keyword.get(params, :number_of_obstacles, 2)

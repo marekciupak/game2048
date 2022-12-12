@@ -1,12 +1,17 @@
 defmodule Game2048.Games do
   @moduledoc """
-  The Games context.
+  This module is responsible for managing games (storing the game state and processing commands from players, etc.).
   """
 
   alias Game2048.Games.{Game, NewGameForm}
 
+  @spec get_game :: Game.t()
   defdelegate get_game, to: Game, as: :get
+
+  @spec move(Grid.direction()) :: Game.t()
   defdelegate move(direction), to: Game, as: :move
+
+  @spec subscribe_to_game_updates :: :ok | {:error, {:already_registered, pid}}
   defdelegate subscribe_to_game_updates, to: Game, as: :subscribe
 
   @doc """
