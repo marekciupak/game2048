@@ -3,9 +3,15 @@ defmodule Game2048Web.GameLiveTest do
 
   import Phoenix.LiveViewTest
 
+  alias Game2048.Games.Game
+
   @create_attrs %{grid_size_x: 2, grid_size_y: 2, number_of_obstacles: 1}
 
   describe "Show" do
+    setup do
+      on_exit(:restart_game, fn -> Game.restart() end)
+    end
+
     test "Renders the current game", %{conn: conn} do
       {:ok, _show_live, html} = live(conn, Routes.game_show_path(conn, :show))
 

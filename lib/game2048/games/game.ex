@@ -7,6 +7,8 @@ defmodule Game2048.Games.Game do
   alias Game2048.Games.Game
   alias Game2048.{Grid, Judging}
 
+  @type t :: %__MODULE__{grid_size: Grid.size(), grid: Grid.t(), status: Judging.game_status()}
+
   def start_link(options \\ []) when is_list(options) do
     GenServer.start_link(__MODULE__, options, name: __MODULE__)
   end
@@ -60,6 +62,11 @@ defmodule Game2048.Games.Game do
     GenServer.call(__MODULE__, {:restart, params})
   end
 
+  @spec subscribe :: :ok | {:error, {:already_registered, pid}}
+  def subscribe do
+    Phoenix.PubSub.subscribe(Game2048.PubSub, "game")
+  end
+
   @impl true
   def init(params \\ []) do
     game = generate_new_game(params)
@@ -82,6 +89,8 @@ defmodule Game2048.Games.Game do
         status: Judging.current_game_status(next_grid)
       })
 
+    broadcast(next_game)
+
     {:reply, next_game, next_game}
   end
 
@@ -96,9 +105,12 @@ defmodule Game2048.Games.Game do
   def handle_call({:restart, params}, _from, _game) do
     game = generate_new_game(params)
 
+    broadcast(game)
+
     {:reply, game, game}
   end
 
+  @spec generate_new_game(keyword) :: t
   defp generate_new_game(params) do
     grid_size = Keyword.get(params, :grid_size, {6, 6})
     number_of_obstacles = Keyword.get(params, :number_of_obstacles, 2)
@@ -115,5 +127,10 @@ defmodule Game2048.Games.Game do
       grid: grid,
       status: Judging.current_game_status(grid)
     }
+  end
+
+  @spec broadcast(t) :: :ok | {:error, any}
+  defp broadcast(game) do
+    Phoenix.PubSub.broadcast(Game2048.PubSub, "game", {:game_updated, game})
   end
 end

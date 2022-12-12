@@ -23,6 +23,8 @@
       slide <span class="yellow">yellow</span> numbered tiles through <span class="gray">gray</span> empty spots.
       Tiles can not slide through <span class="red">red</span> obstacles.
 
+      For <strong>multiplayer</strong>, open the app in multiple browser windows.
+
       To change gameplay parameters or just start over:
       <%= live_patch "restart the game", to: Routes.game_show_path(@socket, :new) %>.
     <% else %>

@@ -8,6 +8,8 @@ defmodule Game2048Web.GameLive.Show do
 
   @impl true
   def mount(_params, _session, socket) do
+    if connected?(socket), do: Game2048.Games.subscribe_to_game_updates()
+
     game = Games.get_game()
     {:ok, assign(socket, :game, game)}
   end
@@ -31,6 +33,11 @@ defmodule Game2048Web.GameLive.Show do
   @impl true
   def handle_event("move", %{"direction" => direction}, socket) when is_direction(direction) do
     game = Game2048.Games.move(String.to_atom(direction))
+    {:noreply, assign(socket, :game, game)}
+  end
+
+  @impl true
+  def handle_info({:game_updated, game}, socket) do
     {:noreply, assign(socket, :game, game)}
   end
 end

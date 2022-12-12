@@ -7,6 +7,7 @@ defmodule Game2048.Games do
 
   defdelegate get_game, to: Game, as: :get
   defdelegate move(direction), to: Game, as: :move
+  defdelegate subscribe_to_game_updates, to: Game, as: :subscribe
 
   @doc """
   Restarts the game.
