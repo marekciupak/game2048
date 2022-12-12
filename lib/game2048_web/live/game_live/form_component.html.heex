@@ -10,15 +10,15 @@
     phx-submit="save">
 
     <%= label f, :grid_size_x %>
-    <%= number_input f, :grid_size_x %>
+    <%= number_input f, :grid_size_x, min: "1", required: "true" %>
     <%= error_tag f, :grid_size_x %>
 
     <%= label f, :grid_size_y %>
-    <%= number_input f, :grid_size_y %>
+    <%= number_input f, :grid_size_y, min: "1", required: "true" %>
     <%= error_tag f, :grid_size_y %>
 
     <%= label f, :number_of_obstacles %>
-    <%= number_input f, :number_of_obstacles %>
+    <%= number_input f, :number_of_obstacles, min: "0", required: "true" %>
     <%= error_tag f, :number_of_obstacles %>
 
     <div>

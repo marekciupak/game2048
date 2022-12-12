@@ -4,7 +4,6 @@ defmodule Game2048Web.GameLiveTest do
   import Phoenix.LiveViewTest
 
   @create_attrs %{grid_size_x: 2, grid_size_y: 2, number_of_obstacles: 1}
-  @invalid_attrs %{grid_size_x: nil, grid_size_y: nil, number_of_obstacles: nil}
 
   describe "Show" do
     test "Renders the current game", %{conn: conn} do
@@ -20,10 +19,6 @@ defmodule Game2048Web.GameLiveTest do
                "restart the game"
 
       assert_patch(show_live, Routes.game_show_path(conn, :new))
-
-      assert show_live
-             |> form("#new-game-form", new_game_form: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
 
       {:ok, _, html} =
         show_live

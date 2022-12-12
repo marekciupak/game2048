@@ -3,9 +3,9 @@ defmodule Game2048.Games.NewGameForm do
   import Ecto.Changeset
 
   embedded_schema do
-    field(:grid_size_x, :integer)
-    field(:grid_size_y, :integer)
-    field(:number_of_obstacles, :integer)
+    field(:grid_size_x, :integer, default: 6)
+    field(:grid_size_y, :integer, default: 6)
+    field(:number_of_obstacles, :integer, default: 2)
   end
 
   @doc false
