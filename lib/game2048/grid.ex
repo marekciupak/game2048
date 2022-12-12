@@ -145,12 +145,10 @@ defmodule Game2048.Grid do
   end
 
   @spec add_new_tile_if_grid_has_changed(t, prev_grid: t) :: t
-  defp add_new_tile_if_grid_has_changed(current_grid, prev_grid: prev_grid) do
-    if current_grid != prev_grid do
-      place_on_random_empty_spots(current_grid, [@tile_that_appears_on_every_move])
-    else
-      current_grid
-    end
+  defp add_new_tile_if_grid_has_changed(current_grid, prev_grid: current_grid), do: current_grid
+
+  defp add_new_tile_if_grid_has_changed(current_grid, prev_grid: _prev_grid) do
+    place_on_random_empty_spots(current_grid, [@tile_that_appears_on_every_move])
   end
 
   @spec place_on_random_empty_spots(t, list(Row.element())) :: t
