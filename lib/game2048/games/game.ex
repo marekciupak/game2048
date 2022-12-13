@@ -148,7 +148,7 @@ defmodule Game2048.Games.Game do
       Grid.generate(
         size: grid_size,
         number_of_obstacles: number_of_obstacles,
-        starting_tiles: [1]
+        starting_tiles: [2]
       )
 
     %Game{
