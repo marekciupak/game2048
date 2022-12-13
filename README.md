@@ -45,16 +45,46 @@ Players can not continue the game beyond that.
 
 When no ***legal move*** can be made (the player is unable to slide any more tiles), the player ***loses*** the game.
 
-### :rocket: Running the app
+### :rocket: Running the app locally in `dev` enviroment
 
-To start your Phoenix server:
+1. Ensure you have installed runtimes in versions declared in [.tool-versions](.tool-versions) file.
 
-  * Install dependencies with `mix deps.get`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+2. Clone the repo to you local machine:
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+    ```shell
+    git clone git@github.com:marekciupak/game2048.git
+    ```
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+2. Setup project with `mix setup`.
+
+3. Optionally, check everything is fine with `mix test`.
+
+4. Start Phoenix endpoint with `mix phx.server` (or inside IEx with `iex -S mix phx.server`).
+
+5. Now you can visit [`localhost:4000`](http://localhost:4000) from your browser (and play the game...).
+
+### ::ship:: Docker image with `prod` release
+
+:warning: Depending on your setup, you may need to use `sudo` to run `docker ...` commands.
+
+Assuming, you have [Docker](https://www.docker.com/get-started/) on your machine, you can build the production release
+image via the following command:
+
+```shell
+docker build . -t marekciupak_game2048
+```
+
+The app will accept env vars, for example:
+
+```shell
+$ docker run \
+    --env SECRET_KEY_BASE="REALLY_LONG_SECRET" \
+    --env PHX_HOST="game2048.dev" \
+    --env PORT=4001 \
+    marekciupak_game2048
+18:06:09.670 [info] Running Game2048Web.Endpoint with cowboy 2.9.0 at :::4001 (http)
+18:06:09.670 [info] Access Game2048Web.Endpoint at https://game2048.dev
+```
 
 ## :scroll: Copyright and license
 
